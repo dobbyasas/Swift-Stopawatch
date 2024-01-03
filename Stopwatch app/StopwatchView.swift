@@ -55,7 +55,7 @@ struct StopwatchView: View {
                         .cornerRadius(15)
                 }
 
-                // Display saved times
+                // Display saved times with most recent on top
                 ScrollView {
                     VStack {
                         ForEach(savedTimes, id: \.self) { time in
@@ -93,7 +93,7 @@ struct StopwatchView: View {
     }
 
     func saveTime() {
-        savedTimes.append(elapsedTime)
+        savedTimes.insert(elapsedTime, at: 0) // Insert the current elapsed time at the start of the array
     }
 
     func resetTimer() {
