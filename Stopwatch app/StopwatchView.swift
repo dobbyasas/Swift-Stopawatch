@@ -10,7 +10,7 @@ import SwiftUI
 struct StopwatchView: View {
     @State private var startTime = Date()
     @State private var isRunning = false
-    @State private var elapsedTime = "00:00:00"
+    @State private var accumulatedTime: TimeInterval = 0
     @State private var savedTimes: [String] = []
     @State private var timer: Timer?
 
@@ -21,7 +21,7 @@ struct StopwatchView: View {
             VStack {
                 Spacer() // Pushes all content to the middle
                 
-                Text(elapsedTime)
+                Text(formatTime(accumulatedTime))
                     .font(.largeTitle)
                     .foregroundColor(.black)
                     .padding()
@@ -76,26 +76,28 @@ struct StopwatchView: View {
     func startStopTimer() {
         if isRunning {
             timer?.invalidate()
+            accumulatedTime += Date().timeIntervalSince(startTime)
             isRunning = false
         } else {
             startTime = Date()
             isRunning = true
             timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
                 let currentTime = Date()
-                let difference = currentTime.timeIntervalSince(self.startTime)
-                self.elapsedTime = self.formatTime(difference)
+                self.accumulatedTime += currentTime.timeIntervalSince(self.startTime)
+                self.startTime = currentTime // Update start time for the next tick
             }
         }
     }
 
     func saveTime() {
-        savedTimes.insert(elapsedTime, at: 0) // Insert new time at the top of the list
+        let timeString = formatTime(accumulatedTime)
+        savedTimes.insert(timeString, at: 0) // Insert new time at the top of the list
     }
 
     func resetTimer() {
         timer?.invalidate()
         isRunning = false
-        elapsedTime = "00:00:00"
+        accumulatedTime = 0
     }
 
     func formatTime(_ totalSeconds: TimeInterval) -> String {
@@ -119,3 +121,4 @@ struct StopwatchView_Previews: PreviewProvider {
         StopwatchView()
     }
 }
+
