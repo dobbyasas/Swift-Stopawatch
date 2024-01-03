@@ -67,13 +67,24 @@ struct StopwatchView: View {
                         }
                     }
 
-                    Button(action: saveTime) {
-                        Text("Save Time")
-                            .foregroundColor(.white)
-                            .padding(.horizontal, 30)
-                            .padding(.vertical, 15)
-                            .background(Color.orange)
-                            .cornerRadius(15)
+                    HStack {
+                        Button(action: saveTime) {
+                            Text("Save")
+                                .foregroundColor(.white)
+                                .padding(.horizontal, 30)
+                                .padding(.vertical, 15)
+                                .background(Color.orange)
+                                .cornerRadius(15)
+                        }
+                        
+                        Button(action: clearArray) {
+                            Text("Delete")
+                                .foregroundColor(.white)
+                                .padding(.horizontal, 25)
+                                .padding(.vertical, 15)
+                                .background(Color.red)
+                                .cornerRadius(15)
+                        }
                     }
 
                     // Display all saved times
@@ -108,6 +119,10 @@ struct StopwatchView: View {
 
     func saveTime() {
         savedTimes.append(elapsedTime) // Append the current elapsed time to the array
+    }
+    
+    func clearArray() {
+        
     }
 
     func resetTimer() {
