@@ -25,7 +25,7 @@ struct Stopwatch_appApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            StopwatchView()
         }
         .modelContainer(sharedModelContainer)
     }
