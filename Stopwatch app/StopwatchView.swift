@@ -11,7 +11,8 @@ struct StopwatchView: View {
     @State private var startTime = Date()
     @State private var isRunning = false
     @State private var elapsedTime = "00:00:00"
-    @State private var savedTime = "" // New state variable to hold the saved time
+    @State private var savedTime = ""
+    @State private var timer: Timer?
 
     var body: some View {
         VStack {
@@ -60,21 +61,26 @@ struct StopwatchView: View {
 
     func startStopTimer() {
         if isRunning {
-            stopTime = Date()
-            let difference = stopTime.timeIntervalSince(startTime)
-            elapsedTime = formatTime(difference)
+            timer?.invalidate()
             isRunning = false
         } else {
-            startTime = isRunning ? startTime : Date()
+            startTime = Date()
             isRunning = true
+            timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
+                let currentTime = Date()
+                let difference = currentTime.timeIntervalSince(self.startTime)
+                self.elapsedTime = self.formatTime(difference)
+            }
         }
     }
+
     
     func saveTime() {
         savedTime = elapsedTime // Save the current elapsed time
     }
 
     func resetTimer() {
+        timer?.invalidate()
         isRunning = false
         elapsedTime = "00:00:00"
         savedTime = "" // Clear the saved time as well
@@ -93,3 +99,4 @@ struct StopwatchView_Previews: PreviewProvider {
         StopwatchView()
     }
 }
+
