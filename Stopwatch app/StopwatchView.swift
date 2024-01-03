@@ -15,92 +15,66 @@ struct StopwatchView: View {
     @State private var timer: Timer?
 
     var body: some View {
-        GeometryReader { geometry in
-            ZStack {
-                // Diagonal split background
-                Path { path in
-                    path.move(to: CGPoint(x: 0, y: 0))
-                    path.addLine(to: CGPoint(x: geometry.size.width, y: 0))
-                    path.addLine(to: CGPoint(x: 0, y: geometry.size.height))
-                    path.closeSubpath()
-                }
-                .fill(Color.gray)
+        ZStack {
+            // Plain white background
+            Color.white.edgesIgnoringSafeArea(.all)
 
-                Path { path in
-                    path.move(to: CGPoint(x: geometry.size.width, y: 0))
-                    path.addLine(to: CGPoint(x: geometry.size.width, y: geometry.size.height))
-                    path.addLine(to: CGPoint(x: 0, y: geometry.size.height))
-                    path.closeSubpath()
-                }
-                .fill(Color.white)
-                .offset(y: -30)
+            VStack {
+                Spacer() // Pushes all content to the middle
+                
+                Text(elapsedTime)
+                    .font(.largeTitle)
+                    .foregroundColor(.black)
+                    .padding()
+                    .background(Color.white.opacity(0.5))
+                    .cornerRadius(10)
 
-                // Overlay with blur effect
-                Rectangle()
-                    .fill(Color.black.opacity(0.1))
-                    .blur(radius: 20)
-                    .edgesIgnoringSafeArea(.all)
-
-                // Stopwatch UI elements
-                VStack {
-                    Text(elapsedTime)
-                        .font(.largeTitle)
-                        .foregroundColor(.black) // Ensuring the text is visible
-                        .padding()
-                        .background(Color.white.opacity(0.5)) // Semi-transparent background for better visibility
-                        .cornerRadius(10)
-                        .padding(.top, geometry.safeAreaInsets.top)
-
-                    HStack {
-                        Button(action: startStopTimer) {
-                            Text(isRunning ? "Stop" : "Start")
-                                .foregroundColor(.white)
-                                .padding(.horizontal, 30)
-                                .padding(.vertical, 15)
-                                .background(isRunning ? Color.red : Color.green)
-                                .cornerRadius(15)
-                        }
-
-                        Button(action: resetTimer) {
-                            Text("Reset")
-                                .foregroundColor(.white)
-                                .padding(.horizontal, 30)
-                                .padding(.vertical, 15)
-                                .background(Color.blue)
-                                .cornerRadius(15)
-                        }
-                    }
-
-                    Button(action: saveTime) {
-                        Text("Save Time")
+                HStack {
+                    Button(action: startStopTimer) {
+                        Text(isRunning ? "Stop" : "Start")
                             .foregroundColor(.white)
-                            .padding(.horizontal, 30)
-                            .padding(.vertical, 15)
-                            .background(Color.orange)
+                            .padding()
+                            .background(isRunning ? Color.red : Color.green)
                             .cornerRadius(15)
                     }
 
-                    // Display all saved times
-                    ScrollView {
+                    Button(action: resetTimer) {
+                        Text("Reset")
+                            .foregroundColor(.white)
+                            .padding()
+                            .background(Color.blue)
+                            .cornerRadius(15)
+                    }
+                }
+
+                Button(action: saveTime) {
+                    Text("Save Time")
+                        .foregroundColor(.white)
+                        .padding()
+                        .background(Color.orange)
+                        .cornerRadius(15)
+                }
+
+                // Display saved times
+                ScrollView {
+                    VStack {
                         ForEach(savedTimes, id: \.self) { time in
                             Text(time)
                                 .font(.headline)
                                 .padding()
                         }
                     }
-
-                    Button("Delete All Saved Times") {
-                        deleteAllSavedTimes()
-                    }
-                    .foregroundColor(.red)
-                    .padding()
-
-                    Spacer() // Pushes everything up
                 }
-                .offset(y: -30) // Adjust this value as needed
+
+                Button("Delete All Saved Times") {
+                    deleteAllSavedTimes()
+                }
+                .foregroundColor(.red)
+                .padding()
+
+                Spacer() // Pushes all content to the middle
             }
         }
-        .edgesIgnoringSafeArea(.all)
     }
 
     func startStopTimer() {
@@ -119,14 +93,14 @@ struct StopwatchView: View {
     }
 
     func saveTime() {
-        savedTimes.append(elapsedTime) // Append the current elapsed time to the array
+        savedTimes.append(elapsedTime)
     }
 
     func resetTimer() {
         timer?.invalidate()
         isRunning = false
         elapsedTime = "00:00:00"
-        savedTimes = [] // Optionally reset the saved times when the timer is reset
+        savedTimes.removeAll()
     }
 
     func formatTime(_ totalSeconds: TimeInterval) -> String {
@@ -137,7 +111,7 @@ struct StopwatchView: View {
     }
 
     func deleteAllSavedTimes() {
-        savedTimes.removeAll() // Clear the saved times array
+        savedTimes.removeAll()
     }
 }
 
@@ -146,4 +120,3 @@ struct StopwatchView_Previews: PreviewProvider {
         StopwatchView()
     }
 }
-
