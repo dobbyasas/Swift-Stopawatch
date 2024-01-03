@@ -15,6 +15,7 @@
 		C2D14B1D2B45C89D008F80C8 /* Stopwatch_appTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D14B1C2B45C89D008F80C8 /* Stopwatch_appTests.swift */; };
 		C2D14B272B45C89D008F80C8 /* Stopwatch_appUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D14B262B45C89D008F80C8 /* Stopwatch_appUITests.swift */; };
 		C2D14B292B45C89D008F80C8 /* Stopwatch_appUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D14B282B45C89D008F80C8 /* Stopwatch_appUITestsLaunchTests.swift */; };
+		C2D14B362B45C9A9008F80C8 /* StopwatchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D14B352B45C9A9008F80C8 /* StopwatchView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +47,7 @@
 		C2D14B222B45C89D008F80C8 /* Stopwatch appUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Stopwatch appUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2D14B262B45C89D008F80C8 /* Stopwatch_appUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stopwatch_appUITests.swift; sourceTree = "<group>"; };
 		C2D14B282B45C89D008F80C8 /* Stopwatch_appUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stopwatch_appUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		C2D14B352B45C9A9008F80C8 /* StopwatchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopwatchView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +103,7 @@
 				C2D14B0D2B45C89B008F80C8 /* Item.swift */,
 				C2D14B0F2B45C89C008F80C8 /* Assets.xcassets */,
 				C2D14B112B45C89C008F80C8 /* Preview Content */,
+				C2D14B352B45C9A9008F80C8 /* StopwatchView.swift */,
 			);
 			path = "Stopwatch app";
 			sourceTree = "<group>";
@@ -262,6 +265,7 @@
 			files = (
 				C2D14B0C2B45C89B008F80C8 /* ContentView.swift in Sources */,
 				C2D14B0E2B45C89B008F80C8 /* Item.swift in Sources */,
+				C2D14B362B45C9A9008F80C8 /* StopwatchView.swift in Sources */,
 				C2D14B0A2B45C89B008F80C8 /* Stopwatch_appApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
