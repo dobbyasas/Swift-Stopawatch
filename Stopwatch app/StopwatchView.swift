@@ -16,7 +16,6 @@ struct StopwatchView: View {
 
     var body: some View {
         ZStack {
-            // Plain white background
             Color.white.edgesIgnoringSafeArea(.all)
 
             VStack {
@@ -55,15 +54,12 @@ struct StopwatchView: View {
                         .cornerRadius(15)
                 }
 
-                // Display saved times with most recent on top
-                ScrollView {
-                    VStack {
-                        ForEach(savedTimes, id: \.self) { time in
-                            Text(time)
-                                .font(.headline)
-                                .padding()
-                        }
+                List {
+                    ForEach(savedTimes, id: \.self) { time in
+                        Text(time)
+                            .font(.headline)
                     }
+                    .onDelete(perform: deleteTime)
                 }
 
                 Button("Delete All Saved Times") {
@@ -93,14 +89,13 @@ struct StopwatchView: View {
     }
 
     func saveTime() {
-        savedTimes.insert(elapsedTime, at: 0) // Insert the current elapsed time at the start of the array
+        savedTimes.insert(elapsedTime, at: 0) // Insert new time at the top of the list
     }
 
     func resetTimer() {
         timer?.invalidate()
         isRunning = false
         elapsedTime = "00:00:00"
-        savedTimes.removeAll()
     }
 
     func formatTime(_ totalSeconds: TimeInterval) -> String {
@@ -108,6 +103,10 @@ struct StopwatchView: View {
         let minutes = Int(totalSeconds) / 60 % 60
         let seconds = Int(totalSeconds) % 60
         return String(format: "%02i:%02i:%02i", hours, minutes, seconds)
+    }
+
+    func deleteTime(at offsets: IndexSet) {
+        savedTimes.remove(atOffsets: offsets)
     }
 
     func deleteAllSavedTimes() {
