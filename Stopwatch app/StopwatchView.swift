@@ -11,7 +11,7 @@ struct StopwatchView: View {
     @State private var startTime = Date()
     @State private var isRunning = false
     @State private var elapsedTime = "00:00:00"
-    @State private var savedTimes: [String] = [] // Array to hold saved times
+    @State private var savedTimes: [String] = []
     @State private var timer: Timer?
 
     var body: some View {
@@ -45,7 +45,11 @@ struct StopwatchView: View {
                 VStack {
                     Text(elapsedTime)
                         .font(.largeTitle)
+                        .foregroundColor(.black) // Ensuring the text is visible
                         .padding()
+                        .background(Color.white.opacity(0.5)) // Semi-transparent background for better visibility
+                        .cornerRadius(10)
+                        .padding(.top, geometry.safeAreaInsets.top)
 
                     HStack {
                         Button(action: startStopTimer) {
@@ -67,24 +71,13 @@ struct StopwatchView: View {
                         }
                     }
 
-                    HStack {
-                        Button(action: saveTime) {
-                            Text("Save")
-                                .foregroundColor(.white)
-                                .padding(.horizontal, 30)
-                                .padding(.vertical, 15)
-                                .background(Color.orange)
-                                .cornerRadius(15)
-                        }
-                        
-                        Button(action: clearArray) {
-                            Text("Delete")
-                                .foregroundColor(.white)
-                                .padding(.horizontal, 25)
-                                .padding(.vertical, 15)
-                                .background(Color.red)
-                                .cornerRadius(15)
-                        }
+                    Button(action: saveTime) {
+                        Text("Save Time")
+                            .foregroundColor(.white)
+                            .padding(.horizontal, 30)
+                            .padding(.vertical, 15)
+                            .background(Color.orange)
+                            .cornerRadius(15)
                     }
 
                     // Display all saved times
@@ -95,8 +88,16 @@ struct StopwatchView: View {
                                 .padding()
                         }
                     }
+
+                    Button("Delete All Saved Times") {
+                        deleteAllSavedTimes()
+                    }
+                    .foregroundColor(.red)
+                    .padding()
+
+                    Spacer() // Pushes everything up
                 }
-                .offset(y: -30)
+                .offset(y: -30) // Adjust this value as needed
             }
         }
         .edgesIgnoringSafeArea(.all)
@@ -120,15 +121,12 @@ struct StopwatchView: View {
     func saveTime() {
         savedTimes.append(elapsedTime) // Append the current elapsed time to the array
     }
-    
-    func clearArray() {
-        
-    }
 
     func resetTimer() {
         timer?.invalidate()
         isRunning = false
         elapsedTime = "00:00:00"
+        savedTimes = [] // Optionally reset the saved times when the timer is reset
     }
 
     func formatTime(_ totalSeconds: TimeInterval) -> String {
@@ -136,6 +134,10 @@ struct StopwatchView: View {
         let minutes = Int(totalSeconds) / 60 % 60
         let seconds = Int(totalSeconds) % 60
         return String(format: "%02i:%02i:%02i", hours, minutes, seconds)
+    }
+
+    func deleteAllSavedTimes() {
+        savedTimes.removeAll() // Clear the saved times array
     }
 }
 
